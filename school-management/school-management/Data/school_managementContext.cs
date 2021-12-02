@@ -15,5 +15,15 @@ namespace school_management.Data
         }
 
         public DbSet<school_management.Models.Student> Student { get; set; }
+
+        public DbSet<school_management.Models.Class> Class { get; set; }
+
+        public DbSet<school_management.Models.Grade> Grade { get; set; }
+
+        public DbSet<school_management.Models.Parent> Parent { get; set; }
+
+        public DbSet<school_management.Models.SchoolSubject> SchoolSubject { get; set; }
+
+        public DbSet<school_management.Models.Teacher> Teacher { get; set; }
     }
 }
