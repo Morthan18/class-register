@@ -86,7 +86,7 @@ namespace school_management.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,birthDate")] Teacher teacher)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,BirthDate")] Teacher teacher)
         {
             if (id != teacher.Id)
             {

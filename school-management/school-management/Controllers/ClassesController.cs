@@ -77,6 +77,32 @@ namespace school_management.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddStudentToClass(int StudentId, int ClassId)
+        {
+            if (ModelState.IsValid)
+            {
+                var @class = await _context.Class.FindAsync(ClassId);
+                if (@class == null)
+                {
+                    return View("Class not found");
+                }
+
+                var student = _context.Student.SingleOrDefault(s => s.Id == StudentId);
+                    if (student == null)
+                {
+                    return View("Student not found");
+                }
+                student.@class = @class;
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+
         // GET: Classes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
