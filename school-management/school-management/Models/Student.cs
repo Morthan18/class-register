@@ -10,7 +10,8 @@ namespace school_management.Models
         [Column(TypeName = "date")]
         public DateTime BirthDate { get; set; }
 
-        public Parent Parent { get; set; }  
+        public Parent Parent { get; set; }
+        public Class? @class { get; set; }
 
         public List<Teacher> Teachers { get; set; }
     }
