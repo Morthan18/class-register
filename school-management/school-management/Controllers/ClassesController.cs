@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using school_management.Data;
 using school_management.Models;
+using school_management.ViewModels;
 
 namespace school_management.Controllers
 {
@@ -22,7 +23,9 @@ namespace school_management.Controllers
         // GET: Classes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Class.ToListAsync());
+            return View(_context.Class.Include(c=>c.ClassTeacher)
+                .ToList()
+                .Select(c=> new ClassViewModel(c.Id, c.Name, c.Year, c.ClassTeacher.GetFullName())));
         }
 
         // GET: Classes/Details/5
@@ -46,6 +49,9 @@ namespace school_management.Controllers
         // GET: Classes/Create
         public IActionResult Create()
         {
+            ViewBag.ClassTeachers = _context.Teacher
+                .ToList()
+                .Select(t => new TeacherViewModel(t.Id, t.BirthDate, t.FirstName + " " + t.LastName));
             return View();
         }
 
@@ -54,15 +60,21 @@ namespace school_management.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Year")] Class @class)
+        public async Task<IActionResult> Create(int Id, string Name, int Year, int ClassTeacherId)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@class);
+                var teacher = await _context.Teacher.FindAsync(ClassTeacherId);
+                var @class = new Class { Name = Name, Year = Year, ClassTeacher = teacher };
+                await _context.Class.AddAsync(@class);
                 await _context.SaveChangesAsync();
+
+                var xd = await _context.Class.ToListAsync();
+                Console.Write(xd.Count);    
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(@class);
+            return View();
         }
 
         // GET: Classes/Edit/5
@@ -86,7 +98,7 @@ namespace school_management.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Year")] Class @class)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Year")] TeacherViewModel @class)
         {
             if (id != @class.Id)
             {

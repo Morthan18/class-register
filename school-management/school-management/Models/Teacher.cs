@@ -10,7 +10,11 @@ namespace school_management.Models
         [Column(TypeName = "date")]
         public DateTime BirthDate { get; set; }
 
-        public List<Student> Students { get; set; }
+        public List<Student> Students { get; set; } = new List<Student>();
 
+        public string GetFullName()
+        {
+            return FirstName + " " + LastName;
+        }
     }
 }
