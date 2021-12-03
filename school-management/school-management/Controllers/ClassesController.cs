@@ -60,7 +60,7 @@ namespace school_management.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int Id, string Name, int Year, int ClassTeacherId)
+        public async Task<IActionResult> Create(string Name, int Year, int ClassTeacherId)
         {
             if (ModelState.IsValid)
             {
