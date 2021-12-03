@@ -35,3 +35,7 @@ a.btn-primary, a.btn-secondary {
         transition:color, 0.2s ease-in-out;
         color: #DC3545
     }
+
+.main-card-bg{
+    background-color: #fff
+}
