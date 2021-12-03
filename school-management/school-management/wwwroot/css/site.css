@@ -26,6 +26,9 @@ a, a:visited, a:active, a:hover {
 a.btn-primary, a.btn-secondary {
     color: #fff
 }
+    a.action-icon, a.action-icon__danger {
+        color: #495057
+    }
 
     a.action-icon:hover {
         transition: color, 0.2s ease-in-out;
@@ -38,4 +41,9 @@ a.btn-primary, a.btn-secondary {
 
 .main-card-bg{
     background-color: #fff
+}
+
+.main-table-container {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 8px;
 }

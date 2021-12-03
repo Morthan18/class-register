@@ -111,6 +111,10 @@ namespace school_management.Controllers
                 return NotFound();
             }
 
+            ViewBag.ClassTeachers = _context.Teacher
+                .ToList()
+                .Select(t => new TeacherViewModel(t.Id, t.BirthDate, t.FirstName + " " + t.LastName));
+
             var @class = await _context.Class.FindAsync(id);
             if (@class == null)
             {

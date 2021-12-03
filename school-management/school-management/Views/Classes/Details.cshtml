@@ -4,33 +4,30 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="card row col-6 offset-3">
+    <div class="card-body px-5 py-5">
+        <h1 class="text-center mb-5">Class details</h1>
+        <div>
+            <div class="mb-3">
+                <label for="Name" class="form-label">Class name</label>
+                <input readonly type="text" class="form-control" id="Name" name="Name" value=@Model.Name>
+            </div>
+            <div class="mb-3">
+                <label for="Year" class="form-label">Year</label>
+                <input readonly type="text" class="form-control" id="Year" name="Year" value=@Model.Year>
+            </div>
 
-<div>
-    <h4>Class</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ClassTeacher.FirstName + " " + model.ClassTeacher.LastName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Year)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+            <div class="mb-3">
+                <label for="TeacherFullName" class="form-label">Teacher</label>
+                <input readonly type="text" class="form-control" id="TeacherFullName" name="TeacherFullName" value=@Model.ClassTeacher.GetFullName>
+            </div>
+
+            <div class="flex-row justify-content-end d-flex mt-3">
+                <div class="me-2">
+                    <a asp-action="Index" type="button" class="btn btn-secondary">Back</a>
+                </div>
+                <a asp-action="Edit" asp-route-id="@Model.Id" type="button" class="btn btn-primary">Edit</a>
+            </div>
+        </div>
+    </div>
 </div>
