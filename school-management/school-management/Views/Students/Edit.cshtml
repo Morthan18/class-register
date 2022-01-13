@@ -25,8 +25,8 @@
                     <span asp-validation-for="BirthDate" class="text-danger"></span>
                 </div>
                 <div class="mb-3 form-group">
-                    <label for="ClassTeacherId" class="control-label">Teacher</label>
-                    <select name="ClassTeacherId" id="ClassTeacherId" class="form-select">
+                    <label for="ParentId" class="control-label">Parent</label>
+                    <select name="ParentId" id="ParentId" class="form-select">
                         @foreach(var parent in  ViewBag.Parents){
                             @if (parent.Id.Equals(@Model.Parent.Id))
                             {
@@ -35,6 +35,23 @@
                             else
                             {
                              <option  value="@parent.Id">@parent.FullName</option>
+                            }
+                           
+                        }
+                    </select>
+                </div>
+                <div class="mb-3 form-group">
+                    <label for="ClassId" class="control-label">Class</label>
+                    <select name="ClassId" id="ClassId" class="form-select">
+                        <option selected>Select class</option>
+                        @foreach(var clazz in  ViewBag.Classes){
+                            @if (@Model.@class != null && clazz.Id.Equals(@Model.@class.Id))
+                            {
+                             <option selected value="@clazz.Id">@clazz.Name</option>
+                            }
+                            else
+                            {
+                             <option  value="@clazz.Id">@clazz.Name</option>
                             }
                            
                         }
