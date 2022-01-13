@@ -56,6 +56,10 @@ namespace school_management.Controllers
             ViewBag.Parents = _context.Parent
                 .ToList()
                 .Select(t => new ParentViewModel(t.Id, t.FirstName + " " + t.LastName));
+
+            ViewBag.Classes = _context.Class
+                .ToList();
+
             return View();
         }
 
@@ -64,11 +68,12 @@ namespace school_management.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string FirstName, string LastName, DateTime BirthDate, int ParentId)
+        public async Task<IActionResult> Create(string FirstName, string LastName, DateTime BirthDate, int ParentId, int? ClassId)
         {
             var parent = await _context.Parent.FindAsync(ParentId);
+            var @class = await _context.Class.FindAsync(ClassId);
             
-            var student = new Student { FirstName = FirstName, LastName  = LastName, BirthDate = BirthDate, Parent = parent };
+            var student = new Student { FirstName = FirstName, LastName  = LastName, BirthDate = BirthDate, Parent = parent, @class =  @class };
             
             await _context.Student.AddAsync(student);
             await _context.SaveChangesAsync();

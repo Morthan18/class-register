@@ -15,6 +15,13 @@ namespace school_management.ViewModels
             this.@class = @class;
             Teachers = teachers;
             ParentFullName = parent.FullName();
+            if (@class == null)
+            {
+                ClassName = "";
+            } else
+            {
+                ClassName = @class.Name;
+            }
         }
 
         public int Id { get; set; }
@@ -29,6 +36,9 @@ namespace school_management.ViewModels
         public List<Teacher> Teachers { get; set; }
 
         public string ParentFullName { get; set; }
+        public string ClassName { get; set; }
+
+
 
     }
 }
