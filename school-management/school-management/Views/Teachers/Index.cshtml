@@ -22,6 +22,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Firstname</th>
                 <th scope="col">Lastname</th>
+                <th scope="col">Birth date</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -35,6 +36,7 @@
                     <td>@i</td>
                     <td>@teacher.FirstName</td>
                     <td>@teacher.LastName</td>
+                    <td>@teacher.BirthDateAsDate()</td>
                     <td>
 
                         <a asp-action="Details" class="action-icon" asp-route-id="@teacher.Id">

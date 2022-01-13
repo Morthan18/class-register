@@ -5,13 +5,13 @@
         public TeacherViewModel(int id, DateTime birthDate, string fullName)
         {
             Id = id;
-            BirthDate = birthDate;
+            BirthDate = DateOnly.FromDateTime(birthDate);
             FullName = fullName;    
         }
 
         public int Id { get; set; }
 
-        public DateTime BirthDate { get; set; }
+        public DateOnly BirthDate { get; set; }
         public string FullName { get; set; }
 
 

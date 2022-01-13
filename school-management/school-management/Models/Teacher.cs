@@ -12,6 +12,10 @@ namespace school_management.Models
 
         public List<Student> Students { get; set; } = new List<Student>();
 
+        public DateOnly BirthDateAsDate()
+        {
+            return DateOnly.FromDateTime(BirthDate);
+        }
         public string GetFullName()
         {
             return FirstName + " " + LastName;

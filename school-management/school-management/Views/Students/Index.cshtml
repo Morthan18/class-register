@@ -1,19 +1,16 @@
-﻿@model IEnumerable<school_management.Models.Student>
+﻿@model IEnumerable<school_management.ViewModels.StudentViewModel>
 
 @{
     ViewData["Title"] = "Index";
 }
-
-
 <div class="main-card-bg main-table-container">
 
     <div class="d-flex justify-content-between align-items-center my-3 mx-3">
         <h4>
-            Students
+            Classes
         </h4>
         <div>
-            <a asp-action="Create" class="btn btn-primary ">Create New</a>
-            @*<button asp-action="Create" class="btn btn-primary ">Create New</button>*@
+            <a asp-action="Create" class="btn btn-primary">Create New</a>
         </div>
     </div>
 
@@ -21,9 +18,10 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Firstname</th>
-                <th scope="col">Lastname</th>
-                <th scope="col"></th>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">Birth date</th>
+                <th scope="col">Parent</th>
             </tr>
         </thead>
         <tbody>
@@ -36,6 +34,8 @@
                     <td>@i</td>
                     <td>@student.FirstName</td>
                     <td>@student.LastName</td>
+                    <td>@student.BirthDate</td>
+                    <td>@student.ParentFullName</td>
                     <td>
 
                         <a asp-action="Details" class="action-icon" asp-route-id="@student.Id">
