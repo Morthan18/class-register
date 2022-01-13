@@ -23,9 +23,9 @@ namespace school_management.Controllers
         // GET: Classes
         public async Task<IActionResult> Index()
         {
-            return View(_context.Class.Include(c=>c.ClassTeacher)
+            return View(_context.Class.Include(c => c.ClassTeacher)
                 .ToList()
-                .Select(c=> new ClassViewModel(c.Id, c.Name, c.Year, c.ClassTeacher.GetFullName())));
+                .Select(c => new ClassViewModel(c.Id, c.Name, c.Year, c.ClassTeacher.GetFullName())));
         }
 
         // GET: Classes/Details/5
@@ -62,19 +62,15 @@ namespace school_management.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(string Name, int Year, int ClassTeacherId)
         {
-            if (ModelState.IsValid)
-            {
-                var teacher = await _context.Teacher.FindAsync(ClassTeacherId);
-                var @class = new Class { Name = Name, Year = Year, ClassTeacher = teacher };
-                await _context.Class.AddAsync(@class);
-                await _context.SaveChangesAsync();
+            var teacher = await _context.Teacher.FindAsync(ClassTeacherId);
+            var @class = new Class { Name = Name, Year = Year, ClassTeacher = teacher };
+            await _context.Class.AddAsync(@class);
+            await _context.SaveChangesAsync();
 
-                var xd = await _context.Class.ToListAsync();
-                Console.Write(xd.Count);    
+            var xd = await _context.Class.ToListAsync();
+            Console.Write(xd.Count);
 
-                return RedirectToAction(nameof(Index));
-            }
-            return View();
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
@@ -90,7 +86,7 @@ namespace school_management.Controllers
                 }
 
                 var student = _context.Student.SingleOrDefault(s => s.Id == StudentId);
-                    if (student == null)
+                if (student == null)
                 {
                     return View("Student not found");
                 }
@@ -128,34 +124,28 @@ namespace school_management.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Year")] TeacherViewModel @class)
+        public async Task<IActionResult> Edit(int? id, string Name, int Year, int ClassTeacherId)
         {
-            if (id != @class.Id)
+            if (id == null)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            var @class = await _context.Class.FindAsync(id);
+            if (@class == null)
             {
-                try
-                {
-                    _context.Update(@class);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClassExists(@class.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return View();
             }
-            return View(@class);
+
+            var teacher = await _context.Teacher.FindAsync(ClassTeacherId);
+
+            @class.Name = Name;
+            @class.Year = Year;
+            @class.ClassTeacher = teacher;
+
+            _context.Update(@class);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Classes/Delete/5
