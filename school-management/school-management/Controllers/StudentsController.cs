@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using school_management.Data;
 using school_management.Models;
+using school_management.ViewModels;
 
 namespace school_management.Controllers
 {
@@ -22,7 +23,11 @@ namespace school_management.Controllers
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Student.ToListAsync());
+            return View(_context.Student.Include(c => c.Parent)
+                .Include(s => s.@class)
+                .Include(s => s.Teachers)
+                .ToList()
+                .Select(s => new StudentViewModel(s.Id, s.FirstName, s.LastName, s.BirthDate, s.Parent, s.@class, s.Teachers)));
         }
 
         // GET: Students/Details/5
@@ -33,19 +38,24 @@ namespace school_management.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Student
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (student == null)
+            var s = await _context.Student
+                .Where(m => m.Id == id)
+                .Include(c => c.Parent).FirstAsync();
+
+            if (s == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View( new StudentViewModel(s.Id, s.FirstName, s.LastName, s.BirthDate, s.Parent, s.@class, s.Teachers));
         }
 
         // GET: Students/Create
         public IActionResult Create()
         {
+            ViewBag.Parents = _context.Parent
+                .ToList()
+                .Select(t => new ParentViewModel(t.Id, t.FirstName + " " + t.LastName));
             return View();
         }
 
@@ -54,15 +64,18 @@ namespace school_management.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName")] Student student)
+        public async Task<IActionResult> Create(string FirstName, string LastName, DateTime BirthDate, int ParentId)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(student);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(student);
+            var parent = await _context.Parent.FindAsync(ParentId);
+            
+            var student = new Student { FirstName = FirstName, LastName  = LastName, BirthDate = BirthDate, Parent = parent };
+            
+            await _context.Student.AddAsync(student);
+            await _context.SaveChangesAsync();
+
+
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Students/Edit/5
@@ -72,6 +85,11 @@ namespace school_management.Controllers
             {
                 return NotFound();
             }
+
+
+            ViewBag.Parents = _context.Parent
+                .ToList()
+                .Select(t => new ParentViewModel(t.Id, t.FirstName + " " + t.LastName));
 
             var student = await _context.Student.FindAsync(id);
             if (student == null)
@@ -86,34 +104,29 @@ namespace school_management.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName")] Student student)
+        public async Task<IActionResult> Edit(int? id, string FirstName, string LastName, DateTime BirthDate, int ParentId)
         {
-            if (id != student.Id)
+            if (id == null)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            var student = await _context.Student.FindAsync(id);
+            if (student == null)
             {
-                try
-                {
-                    _context.Update(student);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!StudentExists(student.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return View();
             }
-            return View(student);
+
+            var parent = await _context.Parent.FindAsync(ParentId);
+
+            student.FirstName= FirstName;
+            student.LastName= LastName;
+            student.BirthDate= BirthDate;
+            student.Parent= parent;
+
+            _context.Update(student);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Students/Delete/5

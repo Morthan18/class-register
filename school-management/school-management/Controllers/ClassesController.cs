@@ -37,7 +37,8 @@ namespace school_management.Controllers
             }
 
             var @class = await _context.Class
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Where(m => m.Id == id)
+                .Include(c => c.ClassTeacher).FirstAsync();
             if (@class == null)
             {
                 return NotFound();

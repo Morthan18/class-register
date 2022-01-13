@@ -54,15 +54,14 @@ namespace school_management.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,birthDate")] Parent parent)
+        public async Task<IActionResult> Create(string FirstName, string LastName, DateTime BirthDate)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(parent);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(parent);
+            var parent = new Parent { FirstName = FirstName, LastName = LastName, BirthDate = BirthDate };
+            
+            await _context.Parent.AddAsync(parent);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Parents/Edit/5
@@ -86,34 +85,26 @@ namespace school_management.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,birthDate")] Parent parent)
+        public async Task<IActionResult> Edit(int? id, string FirstName, string LastName, DateTime BirthDate)
         {
-            if (id != parent.Id)
+            if (id == null)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            var parent = await _context.Parent.FindAsync(id);
+            if (parent == null)
             {
-                try
-                {
-                    _context.Update(parent);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ParentExists(parent.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return View();
             }
-            return View(parent);
+
+            parent.FirstName = FirstName;
+            parent.LastName = LastName;
+            parent.BirthDate = BirthDate;
+
+            _context.Update(parent);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Parents/Delete/5

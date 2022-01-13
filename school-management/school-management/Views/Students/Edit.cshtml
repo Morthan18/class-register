@@ -3,37 +3,57 @@
 @{
     ViewData["Title"] = "Edit";
 }
-
-<h1>Edit</h1>
-
-<h4>Student</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="card row col-6 offset-3">
+    <div class="card-body px-5 py-5">
+        <h1 class="text-center mb-5">Edit class details</h1>
+        <div>
+            <form asp-action="Edit">
+                <input type="hidden" asp-for="Id" />
+                <div class="mb-3 form-group">
+                    <label asp-for="FirstName" for="FirstName" class="form-label">First name</label>
+                    <input asp-for="FirstName" type="text" class="form-control" id="Name" name="FirstName">
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="mb-3 form-group">
+                    <label asp-for="LastName" for="LastName" class="form-label">Last name</label>
+                    <input asp-for="LastName" type="text" class="form-control" id="LastName" name="LastName">
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="mb-3 form-group">
+                    <label asp-for="BirthDate" for="BirthDate" class="form-label">Birth date</label>
+                    <input asp-for="BirthDate" type="date" class="form-control" id="BirthDate" name="BirthDate">
+                    <span asp-validation-for="BirthDate" class="text-danger"></span>
+                </div>
+                <div class="mb-3 form-group">
+                    <label for="ClassTeacherId" class="control-label">Teacher</label>
+                    <select name="ClassTeacherId" id="ClassTeacherId" class="form-select">
+                        <option>Select teacher</option>
+                        @foreach(var parent in  ViewBag.Parents){
+                            @if (parent.Id.Equals(@Model.Parent.Id))
+                            {
+                             <option selected value="@parent.Id">@parent.FullName</option>
+                            }
+                            else
+                            {
+                             <option  value="@parent.Id">@parent.FullName</option>
+                            }
+                           
+                        }
+                    </select>
+                </div>
+                <div class="col-12 flex-row justify-content-end d-flex mt-3 form-group">
+                    <div class="me-2">
+                        <a asp-action="Index" type="button" class="btn btn-secondary">Back</a>
+                    </div>
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

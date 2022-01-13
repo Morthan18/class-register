@@ -4,15 +4,15 @@
     ViewData["Title"] = "Index";
 }
 
+
 <div class="main-card-bg main-table-container">
 
     <div class="d-flex justify-content-between align-items-center my-3 mx-3">
         <h4>
-            Parents
+            Teachers
         </h4>
         <div>
-            <a asp-action="Create" class="btn btn-primary ">Create New</a>
-            @*<button asp-action="Create" class="btn btn-primary ">Create New</button>*@
+            <a asp-action="Create" class="btn btn-primary">Create New</a>
         </div>
     </div>
 
@@ -22,6 +22,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Firstname</th>
                 <th scope="col">Lastname</th>
+                <th scope="col">Birth date</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -35,6 +36,7 @@
                     <td>@i</td>
                     <td>@parent.FirstName</td>
                     <td>@parent.LastName</td>
+                    <td>@parent.BirthDateAsDate()</td>
                     <td>
 
                         <a asp-action="Details" class="action-icon" asp-route-id="@parent.Id">

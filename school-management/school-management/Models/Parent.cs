@@ -11,5 +11,14 @@ namespace school_management.Models
         [Column(TypeName = "date")]
         public DateTime BirthDate { get; set; }
         public List<Student> Students { get; set; }
+
+        public DateOnly BirthDateAsDate()
+        {
+            return DateOnly.FromDateTime(BirthDate);
+        }
+        public string FullName()
+        {
+            return FirstName + " " + LastName;
+        }
     }
 }
