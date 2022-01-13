@@ -2,6 +2,34 @@ html {
     font-size: 14px;
 }
 
+.primary {
+    --primary: #0D6EFD;
+    --secondary: #6c757d;
+    --main-bg: #fff;
+    --main-text-color: #212529;
+    --danger: #dc3545;
+    --icon: #495057;
+    --input-bg: #fff;
+}
+
+.dark {
+    --primary: #0D6EFD;
+    --secondary: #6c757d;
+    --main-bg: #212529;
+    --main-text-color: #fff;
+    --danger: #dc3545;
+    --icon: #fff;
+}
+
+.contrast {
+    --primary: #2b2f33;
+    --secondary: #2b2f33;
+    --main-bg: #212529;
+    --main-text-color: #faff07;
+    --danger: #dc3545;
+    --icon: #faff07
+}
+
 @media (min-width: 768px) {
     html {
         font-size: 16px;
@@ -11,6 +39,7 @@ html {
 html {
     position: relative;
     min-height: 100%;
+    color: var(--main-bg)
 }
 
 body {
@@ -27,23 +56,75 @@ a.btn-primary, a.btn-secondary {
     color: #fff
 }
     a.action-icon, a.action-icon__danger {
-        color: #495057
+        color: var(--icon)
     }
 
     a.action-icon:hover {
         transition: color, 0.2s ease-in-out;
-        color: #0D6EFD
+        color: var(--primary)
     }
     a.action-icon__danger:hover {
-        transition:color, 0.2s ease-in-out;
-        color: #DC3545
+        transition: color, 0.2s ease-in-out;
+        color: var(--danger)
     }
 
+    .contrast a.action-icon:hover {
+        transition: color, 0.2s ease-in-out;
+        color: var(--main-text-color)
+    }
+
+.contrast a.action-icon__danger:hover {
+    transition: color, 0.2s ease-in-out;
+    color: var(--main-text-color)
+}
+
 .main-card-bg{
-    background-color: #fff
+    background-color: var(--main-bg);
+    color: var(--main-text-color)
+   
 }
 
 .main-table-container {
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: 8px;
+    color: var(--main-text-color)
+}
+    .main-table-container th, .main-table-container td {
+        color: var(--main-text-color)
+    }
+
+nav {
+    color: var(--main-text-color);
+    background-color: var(--main-bg)
+}
+nav a {
+    color: var(--main-text-color)!important;
+}
+
+.card-body {
+    background-color: var(--main-bg);
+    color: var(--main-text-color);
+}
+.card {
+    border: 1px solid var(--main-bg);
+}
+.form-control {
+    background-color: var(--main-bg) !important;
+    color: var(--main-text-color) !important;
+}
+
+.btn-primary {
+    color: var(--main-text-color) !important;
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+}
+
+tbody {
+    border-color: var(--main-text-color) !important;
+}
+
+.btn-secondary {
+    color: var(--main-text-color)!important;
+    background-color: var(--secondary)!important;
+    border-color: var(--secondary)!important;
 }
