@@ -108,7 +108,7 @@ nav a {
 .card {
     border: 1px solid var(--main-bg);
 }
-.form-control {
+.form-control, .form-select {
     background-color: var(--main-bg) !important;
     color: var(--main-text-color) !important;
 }
