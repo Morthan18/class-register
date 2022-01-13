@@ -6,7 +6,7 @@
 
 <div class="card row col-6 offset-3">
     <div class="card-body px-5 py-5">
-        <h1 class="text-center mb-5">Create class</h1>
+        <h1 class="text-center mb-5">Create student</h1>
         <div>
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -24,6 +24,15 @@
                     <label asp-for="BirthDate" class="control-label"></label>
                     <input asp-for="BirthDate" type="date" class="form-control" />
                     <span asp-validation-for="BirthDate" class="text-danger"></span>
+                </div>
+                <div class="mb-3 form-group">
+                    <label for="ClassId" class="control-label"></label>
+                    <select name="ClassId" id="ClassId" class="form-select">
+                        <option selected>Select class</option>
+                        @foreach(var clazz in  ViewBag.Classes){
+                             <option value="@clazz.Id">@clazz.Name</option>
+                        }
+                    </select>
                 </div>
                 <div class="mb-3 form-group">
                     <label for="ParentId" class="control-label"></label>

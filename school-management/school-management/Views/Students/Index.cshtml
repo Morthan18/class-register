@@ -7,7 +7,7 @@
 
     <div class="d-flex justify-content-between align-items-center my-3 mx-3">
         <h4>
-            Classes
+            Students
         </h4>
         <div>
             <a asp-action="Create" class="btn btn-primary">Create New</a>
@@ -22,7 +22,7 @@
                 <th scope="col">Last name</th>
                 <th scope="col">Birth date</th>
                 <th scope="col">Parent</th>
-                <th scope="col"></th>
+                <th scope="col">Class</th>
             </tr>
         </thead>
         <tbody>
@@ -37,6 +37,7 @@
                     <td>@student.LastName</td>
                     <td>@student.BirthDate</td>
                     <td>@student.ParentFullName</td>
+                    <td>@student.ClassName</td>
                     <td>
 
                         <a asp-action="Details" class="action-icon" asp-route-id="@student.Id">

@@ -40,7 +40,9 @@ namespace school_management.Controllers
 
             var s = await _context.Student
                 .Where(m => m.Id == id)
-                .Include(c => c.Parent).FirstAsync();
+                .Include(s => s.@class)
+                .Include(c => c.Parent)
+                .FirstAsync();
 
             if (s == null)
             {
@@ -56,6 +58,10 @@ namespace school_management.Controllers
             ViewBag.Parents = _context.Parent
                 .ToList()
                 .Select(t => new ParentViewModel(t.Id, t.FirstName + " " + t.LastName));
+
+            ViewBag.Classes = _context.Class
+                .ToList();
+
             return View();
         }
 
@@ -64,11 +70,12 @@ namespace school_management.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string FirstName, string LastName, DateTime BirthDate, int ParentId)
+        public async Task<IActionResult> Create(string FirstName, string LastName, DateTime BirthDate, int ParentId, int? ClassId)
         {
             var parent = await _context.Parent.FindAsync(ParentId);
+            var @class = await _context.Class.FindAsync(ClassId);
             
-            var student = new Student { FirstName = FirstName, LastName  = LastName, BirthDate = BirthDate, Parent = parent };
+            var student = new Student { FirstName = FirstName, LastName  = LastName, BirthDate = BirthDate, Parent = parent, @class =  @class };
             
             await _context.Student.AddAsync(student);
             await _context.SaveChangesAsync();
@@ -91,6 +98,10 @@ namespace school_management.Controllers
                 .ToList()
                 .Select(t => new ParentViewModel(t.Id, t.FirstName + " " + t.LastName));
 
+
+            ViewBag.Classes = _context.Class
+                .ToList();
+
             var student = await _context.Student.FindAsync(id);
             if (student == null)
             {
@@ -104,19 +115,32 @@ namespace school_management.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, string FirstName, string LastName, DateTime BirthDate, int ParentId)
+        public async Task<IActionResult> Edit(int? id, string FirstName, string LastName, DateTime BirthDate, int ParentId, int? ClassId)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var student = await _context.Student.FindAsync(id);
+            var student = await _context.Student
+                .Where(s => s.Id == id)
+                .Include(s => s.Parent)
+                .Include(s => s.@class)
+                .FirstAsync();
+
             if (student == null)
             {
                 return View();
             }
 
             var parent = await _context.Parent.FindAsync(ParentId);
+            if (ClassId == null) 
+            {
+                student.@class = null;
+            } else
+            {
+                var @class = await _context.Class.FindAsync(ClassId);
+                student.@class = @class;
+            }
 
             student.FirstName= FirstName;
             student.LastName= LastName;
