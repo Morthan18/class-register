@@ -27,7 +27,6 @@
                 <div class="mb-3 form-group">
                     <label for="ClassTeacherId" class="control-label">Teacher</label>
                     <select name="ClassTeacherId" id="ClassTeacherId" class="form-select">
-                        <option>Select teacher</option>
                         @foreach(var parent in  ViewBag.Parents){
                             @if (parent.Id.Equals(@Model.Parent.Id))
                             {
