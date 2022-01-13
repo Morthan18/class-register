@@ -9,8 +9,10 @@
     <link rel="stylesheet" href="~/school_management.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
 </head>
-<body class="dark">
+<body class="primary">
 
+    <div id="mainContent">
+        
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow mb-3">
             <div class="container-fluid">
@@ -37,6 +39,11 @@
                             <a class="nav-link " asp-area="" asp-controller="Classes" asp-action="Index">Classes</a>
                         </li>
                     </ul>
+                    <div>
+                        <i id="darkThemeIcon" class="fas fa-moon mx-1 pointer"></i>
+                        <i id="primaryThemeIcon" class="fas fa-sun mx-1 pointer"></i>
+                        <i id="contrastThemeIcon" class="fas fa-low-vision mx-1 pointer"></i>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -46,6 +53,8 @@
             @RenderBody()
         </main>
     </div>
+    </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
