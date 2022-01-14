@@ -13,11 +13,16 @@ namespace school_management.Models
         public Parent Parent { get; set; }
         public Class? @class { get; set; }
 
+        public string GetFullName()
+        {
+            return FirstName + " " + LastName;
+        }
         public string ClassName()
         {
             return @class.Name;
         }
 
         public List<Teacher> Teachers { get; set; }
+        public List<Grade> Grades { get; set; }
     }
 }

@@ -6,6 +6,7 @@
         public int GradeNumber { get; set; }
         public string Description { get; set; }
         public Student Student { get; set; }
+        public SchoolSubject SchoolSubject { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
     }

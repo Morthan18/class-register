@@ -21,8 +21,10 @@
         <thead>
             <tr>
                 <th scope="col">Grade</th>
+                <th scope="col">Student</th>
+                <th scope="col">School subject</th>
                 <th scope="col">Description</th>
-                <th scope="col">Date</th>
+                <th scope="col">Modified date</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -32,6 +34,8 @@
             {
                 <tr>
                     <td>@grade.GradeNumber</td>
+                    <td>@grade.Student.GetFullName()</td>
+                    <td>@grade.SchoolSubject.Name</td>
                     <td>@grade.Description</td>
                     <td>@grade.ModifiedDate</td>
                     <td>

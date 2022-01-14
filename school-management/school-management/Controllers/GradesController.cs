@@ -22,7 +22,10 @@ namespace school_management.Controllers
         // GET: Grades
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Grade.ToListAsync());
+            return View(await _context.Grade
+                .Include(g => g.SchoolSubject)
+                .Include(g => g.Student)
+                .ToListAsync());
         }
 
         // GET: Grades/Details/5
@@ -34,7 +37,10 @@ namespace school_management.Controllers
             }
 
             var grade = await _context.Grade
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Where(m => m.Id == id)
+                .Include(s => s.SchoolSubject)
+                .Include(s => s.Student)
+                .FirstAsync();
             if (grade == null)
             {
                 return NotFound();
@@ -46,6 +52,9 @@ namespace school_management.Controllers
         // GET: Grades/Create
         public IActionResult Create()
         {
+            ViewBag.Students = _context.Student.ToList();
+            ViewBag.SchoolSubjects = _context.SchoolSubject.ToList();
+
             return View();
         }
 
@@ -54,15 +63,18 @@ namespace school_management.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,GradeNumber,Description,StudentIdForeignKey,CreatedDate,ModifiedDate")] Grade grade)
+        public async Task<IActionResult> Create(int GradeNumber, string Description, int StudentId, int SchoolSubjectId)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(grade);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(grade);
+            var student = await _context.Student.FindAsync(StudentId);
+            var schoolSubject = await _context.SchoolSubject.FindAsync(SchoolSubjectId);
+
+            var grade = new Grade{ GradeNumber = GradeNumber, Description = Description, Student = student, SchoolSubject = schoolSubject, CreatedDate = DateTime.Now, ModifiedDate = DateTime.Now };
+
+            await _context.Grade.AddAsync(grade);
+            await _context.SaveChangesAsync();
+
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Grades/Edit/5
@@ -73,7 +85,14 @@ namespace school_management.Controllers
                 return NotFound();
             }
 
-            var grade = await _context.Grade.FindAsync(id);
+            ViewBag.Students = _context.Student.ToList();
+            ViewBag.SchoolSubjects = _context.SchoolSubject.ToList();
+
+            var grade = await _context.Grade
+                .Where(m => m.Id == id)
+                .Include(s => s.Student)
+                .Include(s => s.SchoolSubject)
+                .FirstAsync();
             if (grade == null)
             {
                 return NotFound();
@@ -86,34 +105,36 @@ namespace school_management.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,GradeNumber,Description,StudentIdForeignKey,CreatedDate,ModifiedDate")] Grade grade)
+        public async Task<IActionResult> Edit(int? id, int GradeNumber, string Description, int StudentId, int SchoolSubjectId)
         {
-            if (id != grade.Id)
+            if (id == null)
             {
                 return NotFound();
             }
+            var grade = await _context.Grade
+                .Where(s => s.Id == id)
+                .Include(s => s.Student)
+                .Include(s => s.SchoolSubject)
+                .FirstAsync();
 
-            if (ModelState.IsValid)
+            if (grade == null)
             {
-                try
-                {
-                    _context.Update(grade);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!GradeExists(grade.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return View();
             }
-            return View(grade);
+
+            var student = await _context.Student.FindAsync(StudentId);
+            var schoolSubject = await _context.SchoolSubject.FindAsync(SchoolSubjectId);
+
+            grade.GradeNumber = GradeNumber;
+            grade.Description = Description;
+            grade.Student = student;
+            grade.SchoolSubject = schoolSubject;
+            grade.ModifiedDate = DateTime.Now;
+
+            _context.Update(grade);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Grades/Delete/5

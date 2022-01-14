@@ -3,47 +3,65 @@
 @{
     ViewData["Title"] = "Edit";
 }
-
-<h1>Edit</h1>
-
-<h4>Grade</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="GradeNumber" class="control-label"></label>
-                <input asp-for="GradeNumber" class="form-control" />
-                <span asp-validation-for="GradeNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedDate" class="control-label"></label>
-                <input asp-for="CreatedDate" class="form-control" />
-                <span asp-validation-for="CreatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ModifiedDate" class="control-label"></label>
-                <input asp-for="ModifiedDate" class="form-control" />
-                <span asp-validation-for="ModifiedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="card row col-6 offset-3">
+    <div class="card-body px-5 py-5">
+        <h1 class="text-center mb-5">Edit school subject details</h1>
+        <div>
+            <form asp-action="Edit">
+                <input type="hidden" asp-for="Id" />
+                <div class="mb-3 form-group">
+                    <label asp-for="GradeNumber" for="GradeNumber" class="form-label">Grade number</label>
+                    <input asp-for="GradeNumber" type="number" class="form-control" id="GradeNumber" name="GradeNumber">
+                    <span asp-validation-for="GradeNumber" class="text-danger"></span>
+                </div>
+                <div class="mb-3 form-group">
+                    <label for="StudentId" class="control-label">Student</label>
+                    <select name="StudentId" id="StudentId" class="form-select">
+                        @foreach(var student in  ViewBag.Students){
+                            @if (student.Id.Equals(@Model.Student.Id))
+                            {
+                             <option selected value="@student.Id">@student.GetFullName()</option>
+                            }
+                            else
+                            {
+                             <option  value="@student.Id">@student.GetFullName()</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="mb-3 form-group">
+                    <label for="SchoolSubjectId" class="control-label">School subject</label>
+                    <select name="SchoolSubjectId" id="SchoolSubjectId" class="form-select">
+                        @foreach(var schoolSubject in  ViewBag.SchoolSubjects){
+                            @if (schoolSubject.Id.Equals(@Model.SchoolSubject.Id))
+                            {
+                             <option selected value="@schoolSubject.Id">@schoolSubject.Name</option>
+                            }
+                            else
+                            {
+                             <option  value="@schoolSubject.Id">@schoolSubject.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="mb-3 form-group">
+                    <label asp-for="Description" for="LastName" class="form-label">Description</label>
+                    <input asp-for="Description" type="text" class="form-control" id="Description" name="Description">
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="col-12 flex-row justify-content-end d-flex mt-3 form-group">
+                    <div class="me-2">
+                        <a asp-action="Index" type="button" class="btn btn-secondary">Back</a>
+                    </div>
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }
