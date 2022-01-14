@@ -25,5 +25,7 @@ namespace school_management.Data
         public DbSet<school_management.Models.SchoolSubject> SchoolSubject { get; set; }
 
         public DbSet<school_management.Models.Teacher> Teacher { get; set; }
+
+        public DbSet<school_management.Models.News> News { get; set; }
     }
 }
