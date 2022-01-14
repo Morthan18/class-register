@@ -26,9 +26,8 @@
                     <span asp-validation-for="BirthDate" class="text-danger"></span>
                 </div>
                 <div class="mb-3 form-group">
-                    <label for="ClassId" class="control-label"></label>
+                    <label for="ClassId" class="control-label">Class</label>
                     <select name="ClassId" id="ClassId" class="form-select">
-                        <option selected>Select class</option>
                         @foreach(var clazz in  ViewBag.Classes){
                              <option value="@clazz.Id">@clazz.Name</option>
                         }

@@ -6,7 +6,7 @@
 
 <div class="card row col-6 offset-3">
     <div class="card-body px-5 py-5">
-        <h1 class="text-center mb-5">Create school subject</h1>
+        <h1 class="text-center mb-5">Create subject</h1>
         <div>
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -21,7 +21,7 @@
                     <span asp-validation-for="SubjectContent" class="text-danger"></span>
                 </div>
                 <div class="mb-3 form-group">
-                    <label for="TeacherId" class="control-label"></label>
+                    <label for="TeacherId" class="control-label">Teacher</label>
                     <select name="TeacherId" id="TeacherId" class="form-select">
                         @foreach(var teacher in  ViewBag.Teachers){
                              <option value="@teacher.Id">@teacher.GetFullName()</option>

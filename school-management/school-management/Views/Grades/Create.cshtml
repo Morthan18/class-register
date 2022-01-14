@@ -11,7 +11,7 @@
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="mb-3 form-group">
-                    <label asp-for="GradeNumber" class="control-label"></label>
+                    <label asp-for="GradeNumber" class="control-label">Grade</label>
                     <input asp-for="GradeNumber" class="form-control" />
                     <span asp-validation-for="GradeNumber" class="text-danger"></span>
                 </div>
@@ -21,7 +21,7 @@
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
                 <div class="mb-3 form-group">
-                    <label for="StudentId" class="control-label"></label>
+                    <label for="StudentId" class="control-label">Student</label>
                     <select name="StudentId" id="StudentId" class="form-select">
                         @foreach(var student in  ViewBag.Students){
                              <option value="@student.Id">@student.GetFullName()</option>
@@ -29,7 +29,7 @@
                     </select>
                 </div>
                 <div class="mb-3 form-group">
-                    <label for="SchoolSubjectId" class="control-label"></label>
+                    <label for="SchoolSubjectId" class="control-label">Subject</label>
                     <select name="SchoolSubjectId" id="SchoolSubjectId" class="form-select">
                         @foreach(var schoolSubject in  ViewBag.SchoolSubjects){
                              <option value="@schoolSubject.Id">@schoolSubject.Name</option>
