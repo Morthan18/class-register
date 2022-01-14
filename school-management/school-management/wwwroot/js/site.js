@@ -4,7 +4,7 @@
 // Write your JavaScript code.
 
 const setAppThemeFromLocalStorage = () => {
-    const theme = localStorage.getItem('theme')
+    const theme = localStorage.getItem('theme') ? localStorage.getItem('theme') : 'primary'
     const body = document.getElementsByTagName('body')[0]
     body.className = theme
     const mainContent = document.getElementById('mainContent')
