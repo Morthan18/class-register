@@ -20,12 +20,39 @@ namespace school_management.Controllers
         }
 
         // GET: Grades
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int studentId, int subjectId, string dateFrom, string dateTo)
         {
-            return View(await _context.Grade
+            var newContext = await _context.Grade
                 .Include(g => g.SchoolSubject)
                 .Include(g => g.Student)
-                .ToListAsync());
+                .ToListAsync();
+            ViewBag.allGrades = newContext;
+            ViewBag.selectedDateFrom = "";
+            ViewBag.selectedDateTo = "";
+            if (studentId != 0)
+            {
+                newContext = newContext.FindAll(element =>element.Student.Id.Equals(studentId));
+            }
+            if (subjectId != 0)
+            {
+                newContext = newContext.FindAll(element => element.SchoolSubject.Id.Equals(subjectId));
+            }
+
+            if (dateFrom != null && dateTo != null)
+            {
+                ViewBag.selectedDateFrom = dateFrom;
+                ViewBag.selectedDateTo = dateTo;
+                var parsedDateFrom = DateTime.Parse(dateFrom);
+                var parsedDateTo = DateTime.Parse(dateTo);
+                newContext = newContext.FindAll(element => (
+                element.ModifiedDate.CompareTo(parsedDateFrom) > 0
+                && element.ModifiedDate.CompareTo(parsedDateTo.AddDays(1)) < 0
+                ));
+
+            }
+            ViewBag.selectedStudentId = studentId;
+            ViewBag.selectedSubjectId = subjectId;
+            return View(newContext);
         }
 
         // GET: Grades/Details/5
