@@ -43,7 +43,6 @@
                 <div class="mb-3 form-group">
                     <label for="ClassId" class="control-label">Class</label>
                     <select name="ClassId" id="ClassId" class="form-select">
-                        <option selected>Select class</option>
                         @foreach(var clazz in  ViewBag.Classes){
                             @if (@Model.@class != null && clazz.Id.Equals(@Model.@class.Id))
                             {

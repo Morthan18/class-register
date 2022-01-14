@@ -3,41 +3,6 @@
 @{
     ViewData["Title"] = "Create";
 }
-@*
-<h1>Create</h1>
-
-<h4>Class</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Year" class="control-label"></label>
-                <input asp-for="Year" class="form-control" />
-                <span asp-validation-for="Year" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="col-md-10">
-                    @Html.DropDownList("ClassTeacherId", new SelectList(ViewBag.ClassTeachers, "Id", "FullName"), "Wybierz nauczyciela")
-
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>*@
 
 <div class="card row col-6 offset-3">
     <div class="card-body px-5 py-5">
@@ -56,9 +21,8 @@
                     <span asp-validation-for="Year" class="text-danger"></span>
                 </div>
                 <div class="mb-3 form-group">
-                    <label for="ClassTeacherId" class="control-label"></label>
+                    <label for="ClassTeacherId" class="control-label">Teacher</label>
                     <select name="ClassTeacherId" id="ClassTeacherId" class="form-select">
-                        <option selected>Select teacher</option>
                         @foreach(var teacher in  ViewBag.ClassTeachers){
                              <option value="@teacher.Id">@teacher.FullName</option>
                         }

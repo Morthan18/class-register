@@ -5,12 +5,12 @@
 }
 <div class="card row col-6 offset-3">
     <div class="card-body px-5 py-5">
-        <h1 class="text-center mb-5">Edit school subject details</h1>
+        <h1 class="text-center mb-5">Edit grade details</h1>
         <div>
             <form asp-action="Edit">
                 <input type="hidden" asp-for="Id" />
                 <div class="mb-3 form-group">
-                    <label asp-for="GradeNumber" for="GradeNumber" class="form-label">Grade number</label>
+                    <label asp-for="GradeNumber" for="GradeNumber" class="form-label">Grade</label>
                     <input asp-for="GradeNumber" type="number" class="form-control" id="GradeNumber" name="GradeNumber">
                     <span asp-validation-for="GradeNumber" class="text-danger"></span>
                 </div>
@@ -30,7 +30,7 @@
                     </select>
                 </div>
                 <div class="mb-3 form-group">
-                    <label for="SchoolSubjectId" class="control-label">School subject</label>
+                    <label for="SchoolSubjectId" class="control-label">Subject</label>
                     <select name="SchoolSubjectId" id="SchoolSubjectId" class="form-select">
                         @foreach(var schoolSubject in  ViewBag.SchoolSubjects){
                             @if (schoolSubject.Id.Equals(@Model.SchoolSubject.Id))

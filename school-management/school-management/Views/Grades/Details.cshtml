@@ -9,7 +9,7 @@
         <h1 class="text-center mb-5">Grade details</h1>
         <div>
             <div class="mb-3">
-                <label for="GradeNumber" class="form-label">Grade number</label>
+                <label for="GradeNumber" class="form-label">Grade</label>
                 <input readonly type="text" class="form-control" id="GradeNumber" name="GradeNumber" value=@Model.GradeNumber>
             </div>
             <div class="mb-3">
@@ -17,7 +17,7 @@
                 <input readonly type="text" class="form-control" id="Student" name="Student" value=@Model.Student.GetFullName()>
             </div>
             <div class="mb-3">
-                <label for="SchoolSubject" class="form-label">School subject</label>
+                <label for="SchoolSubject" class="form-label">Subject</label>
                 <input readonly type="text" class="form-control" id="SchoolSubject" name="SchoolSubject" value="@Model.SchoolSubject.Name">
             </div>
             <div class="mb-3">
@@ -25,7 +25,7 @@
                 <input readonly type="text" class="form-control" id="Description" name="Description" value="@Model.Description">
             </div>
             <div class="mb-3">
-                <label for="Date" class="form-label">Modified date</label>
+                <label for="Date" class="form-label">Date</label>
                 <input readonly type="datetime" class="form-control" id="Date" name="Date" value="@Model.ModifiedDate">
             </div>
 
