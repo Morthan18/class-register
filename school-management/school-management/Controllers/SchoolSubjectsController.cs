@@ -22,7 +22,9 @@ namespace school_management.Controllers
         // GET: SchoolSubjects
         public async Task<IActionResult> Index()
         {
-            return View(await _context.SchoolSubject.ToListAsync());
+            return View(await _context.SchoolSubject
+                .Include(s => s.Teacher)
+                .ToListAsync());
         }
 
         // GET: SchoolSubjects/Details/5
@@ -34,7 +36,10 @@ namespace school_management.Controllers
             }
 
             var schoolSubject = await _context.SchoolSubject
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Where(m => m.Id == id)
+                .Include(s => s.Teacher)
+                .FirstAsync();
+
             if (schoolSubject == null)
             {
                 return NotFound();
@@ -46,6 +51,8 @@ namespace school_management.Controllers
         // GET: SchoolSubjects/Create
         public IActionResult Create()
         {
+            ViewBag.Teachers = _context.Teacher.ToList();
+
             return View();
         }
 
@@ -54,15 +61,17 @@ namespace school_management.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,SubjectContent")] SchoolSubject schoolSubject)
+        public async Task<IActionResult> Create(string Name, string SubjectContent, int TeacherId)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(schoolSubject);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(schoolSubject);
+            var teacher = await _context.Teacher.FindAsync(TeacherId);
+
+            var schoolSubject = new SchoolSubject { Name = Name, SubjectContent = SubjectContent, Teacher = teacher};
+
+            await _context.SchoolSubject.AddAsync(schoolSubject);
+            await _context.SaveChangesAsync();
+
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: SchoolSubjects/Edit/5
@@ -73,7 +82,13 @@ namespace school_management.Controllers
                 return NotFound();
             }
 
-            var schoolSubject = await _context.SchoolSubject.FindAsync(id);
+            ViewBag.Teachers = _context.Teacher.ToList();
+
+            var schoolSubject = await _context.SchoolSubject
+                .Where(m => m.Id == id)
+                .Include(s => s.Teacher)
+                .FirstAsync();
+
             if (schoolSubject == null)
             {
                 return NotFound();
@@ -86,34 +101,32 @@ namespace school_management.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,SubjectContent")] SchoolSubject schoolSubject)
+        public async Task<IActionResult> Edit(int? id, string Name, string SubjectContent, int TeacherId)
         {
-            if (id != schoolSubject.Id)
+            if (id == null)
             {
                 return NotFound();
             }
+            var schoolSubject = await _context.SchoolSubject
+                .Where(s => s.Id == id)
+                .Include(s => s.Teacher)
+                .FirstAsync();
 
-            if (ModelState.IsValid)
+            if (schoolSubject == null)
             {
-                try
-                {
-                    _context.Update(schoolSubject);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SchoolSubjectExists(schoolSubject.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return View();
             }
-            return View(schoolSubject);
+
+            var teacher = await _context.Teacher.FindAsync(TeacherId);
+
+            schoolSubject.Name = Name;
+            schoolSubject.SubjectContent= SubjectContent;
+            schoolSubject.Teacher= teacher;
+
+            _context.Update(schoolSubject);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: SchoolSubjects/Delete/5

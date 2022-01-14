@@ -4,27 +4,29 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="card row col-6 offset-3">
+    <div class="card-body px-5 py-5">
+        <h1 class="text-center mb-5">School subject details</h1>
+        <div>
+            <div class="mb-3">
+                <label for="Name" class="form-label">Name</label>
+                <input readonly type="text" class="form-control" id="Name" name="Name" value=@Model.Name>
+            </div>
+            <div class="mb-3">
+                <label for="SubjectContent" class="form-label">Subject content</label>
+                <input readonly type="text" class="form-control" id="SubjectContent" name="SubjectContent" value=@Model.SubjectContent>
+            </div>
+            <div class="mb-3">
+                <label for="Teacher" class="form-label">Teacher</label>
+                <input readonly type="text" class="form-control" id="Teacher" name="Teacher" value="@Model.Teacher.GetFullName()">
+            </div>
 
-<div>
-    <h4>SchoolSubject</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SubjectContent)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SubjectContent)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+            <div class="flex-row justify-content-end d-flex mt-3">
+                <div class="me-2">
+                    <a asp-action="Index" type="button" class="btn btn-secondary">Back</a>
+                </div>
+                <a asp-action="Edit" asp-route-id="@Model.Id" type="button" class="btn btn-primary">Edit</a>
+            </div>
+        </div>
+    </div>
 </div>
