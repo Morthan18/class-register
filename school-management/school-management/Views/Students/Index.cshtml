@@ -10,7 +10,7 @@
             Students
         </h4>
         <div>
-            <a asp-action="Create" class="btn btn-primary">Create New</a>
+            <a id="createBtn" asp-action="Create" class="btn btn-primary">Create New</a>
         </div>
     </div>
 
@@ -57,4 +57,28 @@
 
         </tbody>
     </table>
+        <script>
+            const user = localStorage.getItem('user');
+            if (user && user.length > 0) {
+                const parsedUser = JSON.parse(user)
+                if (parsedUser && parsedUser.email.length > 0){
+                    if(parsedUser.role !== 'admin'){
+                        const editIcons = document.getElementsByClassName('fa-edit')
+                        const deleteIcons = document.getElementsByClassName('fa-trash-alt')
+                        const createBtn = document.getElementById('createBtn')
+                        createBtn.style.display = 'none'
+
+                        for (let i = 0; i < editIcons.length; i++) {
+                            editIcons[i].style.display = 'none';
+                        }
+                        for (let i = 0; i < deleteIcons.length; i++) {
+                            deleteIcons[i].style.display = 'none';
+                        }
+                    }
+                }
+                else window.location = 'http://localhost:5090/'
+            }
+
+
+    </script>
 </div>

@@ -16,8 +16,11 @@ namespace school_management.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
+/*            News news = new News {Title="Super tytuł",  Content="super content", CreatedDate=new DateTime()} ;
+            await _context.News.AddAsync(news);
+            await _context.SaveChangesAsync();*/
             return View(_context.News.ToList());
         }
 

@@ -34,7 +34,7 @@
                     </select>
                 </div>
                 <div class="mb-3 form-group">
-                    <label for="ParentId" class="control-label"></label>
+                    <label for="ParentId" class="control-label">Parent</label>
                     <select name="ParentId" id="ParentId" class="form-select">
                         @foreach(var parent in  ViewBag.Parents){
                              <option value="@parent.Id">@parent.FullName</option>

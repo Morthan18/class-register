@@ -8,34 +8,19 @@
 </div>
 <div class="d-flex justify-content-around flex-wrap mt-5" style="width: 100%">
 
-<div class="card text-center mx-5 my-3" style="width: 40%">
+    @{
+        foreach(var news in Model)
+        {
+            <div class="card text-center mx-5 my-3" style="width: 40%">
   <div class="card-body">
-    <h5 class="card-title mb-4">Zmiany w planei lekcji</h5>
-    <p class="card-text">Super ważne zmiany w w planie lekcji zostały zrobiobione i cza zpobaczyć co tam się stało itp.</p>
+    <h5 class="card-title mb-4">@news.Title</h5>
+    <p class="card-text">@news.Content</p>
   </div>
   <div class="card-footer text-muted">
-    2020-01-03
+    @news.CreatedDate
   </div>
 </div>
-
-<div class="card text-center mx-5 my-3" style="width: 40%">
-  <div class="card-body">
-    <h5 class="card-title mb-4">Zmiany w planei lekcji</h5>
-    <p class="card-text">Super ważne zmiany w w planie lekcji zostały zrobiobione i cza zpobaczyć co tam się stało itp.</p>
-  </div>
-  <div class="card-footer text-muted">
-    2020-01-03
-  </div>
-</div>
-
-<div class="card text-center mx-5 my-3" style="width: 40%">
-  <div class="card-body">
-    <h5 class="card-title mb-4">Zmiany w planei lekcji</h5>
-    <p class="card-text">Super ważne zmiany w w planie lekcji zostały zrobiobione i cza zpobaczyć co tam się stało itp.</p>
-  </div>
-  <div class="card-footer text-muted">
-    2020-01-03
-  </div>
-</div>
+        }
+    }
 
 </div>
