@@ -137,3 +137,10 @@ tbody {
     background-color: var(--secondary) !important;
     border-color: var(--secondary) !important;
 }
+
+.card-footer {
+    background-color: var(--main-bg) !important;
+}
+.contrast .card-footer{
+    color: var(--main-text-color) !important;
+}
