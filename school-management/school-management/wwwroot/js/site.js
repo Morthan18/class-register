@@ -59,7 +59,7 @@ const getUserRole = () => {
 }
 
 const logout = () => {
-    localStorage.setItem('user', baseUserModel);
+    localStorage.setItem('user', JSON.stringify(baseUserModel));
 }
 
 const getRegisteredUserList = () => {
@@ -93,9 +93,20 @@ const hideButtonsWithoutPerm = () => {
     const linkGrades = document.getElementById('linkGrades');
     const linkClasses = document.getElementById('linkClasses');
     const linkSubjects = document.getElementById('linkSubjects');
-
+    const linkLogin = document.getElementById('linkLogin');
+    const linkAddUser = document.getElementById('linkAddUser');
+    const logOutIcon = document.getElementById('logOutIcon');
     const userRole = getUserRole();
 
+    logOutIcon.addEventListener('click', () => {
+        logout()
+        window.location = 'http://localhost:5090/'
+    })
+
+    if (userRole) {
+        linkLogin.style.display = 'none'
+        logOutIcon.style.visibility = 'visible'
+    }
 
     if (userRole !== 'admin') {
         linkTeachers.style.display = 'none'
@@ -104,6 +115,8 @@ const hideButtonsWithoutPerm = () => {
         linkGrades.style.display = 'none'
         linkClasses.style.display = 'none'
         linkSubjects.style.display = 'none'
+        linkAddUser.style.display = 'none'
+
     }
 
     if (userRole === 'student') {
@@ -131,13 +144,8 @@ document.onreadystatechange = function (e) {
 
 window.onload = function () {
     setIconThemeListeners()
-/*    setCurrenUser({
-        email: 'test@test.pl',
-        password: '123',
-        role: 'admin'
-    });*/
     registerNewUSer({
-        email: 'test1@test.pl',
+        email: 'admin@o2.pl',
         password: '123',
         role: 'admin'
     })

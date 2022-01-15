@@ -41,17 +41,15 @@
                         <li id="linkSubjects" class="nav-item">
                             <a class="nav-link " asp-area="" asp-controller="SchoolSubjects" asp-action="Index">Subjects</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                        <li id="linkLogin" class="nav-item">
+                            <a id="linkSubjects" class="nav-link " asp-area="" asp-controller="Login" asp-action="Index">Login</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="AddUser" asp-action="Index">Add user</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="Unauthorized" asp-action="Index">401 page Unauthorized</a>
+                        <li id="linkAddUser" class="nav-item">
+                            <a id="linkSubjects" class="nav-link " asp-area="" asp-controller="AddUser" asp-action="Index">Add user</a>
                         </li>
                     </ul>
                     <div>
+                        <i id="logOutIcon" style="visibility:hidden" class="fas fa-sign-out-alt mx-4 pointer"></i>
                         <i id="darkThemeIcon" class="fas fa-moon mx-1 pointer"></i>
                         <i id="primaryThemeIcon" class="fas fa-sun mx-1 pointer"></i>
                         <i id="contrastThemeIcon" class="fas fa-low-vision mx-1 pointer"></i>

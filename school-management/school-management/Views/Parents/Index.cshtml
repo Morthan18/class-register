@@ -55,4 +55,18 @@
 
         </tbody>
     </table>
+    <script>
+            const user = localStorage.getItem('user');
+            if (user && user.length > 0) {
+                const parsedUser = JSON.parse(user)
+                if (parsedUser && parsedUser.email.length > 0){
+                    if(parsedUser.role !== 'admin'){
+                       window.location = 'http://localhost:5090/Unauthorized'
+                    }
+                }
+                else window.location = 'http://localhost:5090/Unauthorized'
+            }
+
+
+    </script>
 </div>
